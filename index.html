@@ -18,8 +18,8 @@
 </head>
 
 <body>
-  <h1>This is a test test</h1>
-  <p id="subNav">Call 12345</p>
+  <h1>This is a test</h1>
+  <p id="subNav">Call 1-234-567-8901</p>
   
   <script>
     	$('#subNav').each(function() {
@@ -29,16 +29,19 @@
         var phoneNumberInput = $('#subNav').text();
 
         //Grab a number from the user input
-        var phoneNumber = phoneNumberInput.match(/\d+/);
+        var phoneNumber = phoneNumberInput.match(/([(+]*[0-9]+[()+. -]*)/g);
 
         //Check to see if theres a phone number, if there is wrap it in a span
         if (phoneNumber) {
-          $('#subNav').wrapInner('<span class="phoneNumbers"></span>');
-          console.log(phoneNumber)
-        } else {
-          console.log("No number present");
-        };
+          $('#subNav').wrapInner('<span class="phoneNumbers"></span>').prepend('Call ');
 
+          //If input already has the word Call in it, remove it since we're already prepending the word call above
+          $('.phoneNumbers').each( function() {
+            orgText = $(this).html();
+            newText = orgText.replace('Call ','');
+            $(this).html(newText);
+          });
+        };
       });
   </script>
 
